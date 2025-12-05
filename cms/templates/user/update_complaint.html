@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-main">
+    <h2>Update My Grievance</h2>
+
+    <div class="container-box">
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Category</label>
+            <select name="category" class="form-input" required>
+                <option value="">Select a category</option>
+                {% for c in categories %}
+                    <option value="{{ c.category_id }}" {% if c.category_id == complaint.category.category_id %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Subject</label>
+            <input type="text" name="subject" class="form-input" value="{{ complaint.subject }}" placeholder="Brief description of your complaint" required>
+
+            <label>Details</label>
+            <textarea name="details" class="form-input" placeholder="Provide detailed information about your complaint" rows="5" required>{{ complaint.details }}</textarea>
+
+            <button type="submit" class="btn-primary">Update Grievance</button>
+            <a href="{% url 'cms:my_complaints' %}" class="btn-action">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

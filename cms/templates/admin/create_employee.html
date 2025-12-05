@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Employee{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="container-box">
+        <h2 style="text-align: center; margin-bottom: 20px;">Create Employee</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" class="form-input" id="username" name="username" required>
+
+            <label for="email">Email</label>
+            <input type="email" class="form-input" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" class="form-input" id="password" name="password" required>
+
+            <label for="department">Department</label>
+            <select class="form-input" id="department" name="department" required>
+                <option value="" disabled selected>-- Choose a department --</option>
+                <option value="HR">HR</option>
+                <option value="Payroll">Payroll</option>
+                <option value="IT">IT</option>
+                <option value="Facilities">Facilities</option>
+                <option value="Security">Security</option>
+                <option value="Admin Dept">Admin Dept</option>
+            </select>
+
+            <label for="level">Level</label>
+            <select class="form-input" id="level" name="level" required>
+                <option value="">-- Choose a level --</option>
+                <option value="Level-1">Level-1</option>
+                <option value="Level-2">Level-2</option>
+            </select>
+
+            <button type="submit" class="btn-primary">Create Employee</button>
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" style="margin-top: 20px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,147 @@
+/* Basic Reset & Body Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px; /* allows breathing room on small screens */
+}
+
+.container {
+    display: flex;
+    width: 900px;
+    max-width: 100%;
+    min-height: 550px;        /* changed: no fixed height */
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Panel */
+.left-panel {
+    flex: 1;
+    background-image: url('login_image1.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    padding: 20px;
+}
+
+.left-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1;
+}
+
+.overlay-text {
+    position: relative;
+    z-index: 2;
+}
+
+/* Right Panel */
+.right-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;   /* changed: stop pushing content out */
+    background-color: #f7f9fc;
+    padding: 30px 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 360px;          /* slightly smaller for visibility */
+    padding: 20px;             /* reduced padding */
+    text-align: center;
+}
+
+.login-card h2 {
+    font-size: 1.7em;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+    z-index: 5;
+}
+
+/* Form Fields */
+.form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.95em;
+}
+
+/* Register Button */
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        min-height: auto;      /* allow full scroll */
+    }
+
+    .left-panel {
+        height: 200px;
+    }
+
+    .right-panel {
+        padding: 20px;
+        align-items: center;
+    }
+
+    .login-card {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .login-card h2 {
+        margin-top: 10px;
+        font-size: 1.6em;
+    }
+}

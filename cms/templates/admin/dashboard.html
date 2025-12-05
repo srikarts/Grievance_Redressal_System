@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="header">
+    <h1>Welcome, {{ request.user.username }}</h1>
+    <p>Complaint management overview</p>
+</div>
+
+<div class="cards-row">
+    <div class="card card-total">
+        <h3>Total Grievances</h3>
+        <p>{{ total }}</p>
+    </div>
+    <div class="card card-open">
+        <h3>Open Grievances</h3>
+        <p>{{ open_count }}</p>
+    </div>
+    <div class="card card-progress">
+        <h3>In Progress</h3>
+        <p>{{ progress_count }}</p>
+    </div>
+    <div class="card card-closed">
+        <h3>Closed</h3>
+        <p>{{ closed_count }}</p>
+    </div>
+    <div class="card card-pending-approvals">
+        <h3>Pending Approvals</h3>
+        <p>{{ pending_approvals_count }}</p>
+    </div>
+</div>
+
+<div class="container-box">
+    <form method="GET">
+        <select name="status" class="form-input">
+            <option value="">All Status</option>
+            <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="Assigned" {% if status_filter == "Assigned" %}selected{% endif %}>Assigned</option>
+            <option value="In Progress" {% if status_filter == "In Progress" %}selected{% endif %}>In Progress</option>
+            <option value="Resolved" {% if status_filter == "Resolved" %}selected{% endif %}>Resolved</option>
+            <option value="Closed" {% if status_filter == "Closed" %}selected{% endif %}>Closed</option>
+            <option value="Reopened" {% if status_filter == "Reopened" %}selected{% endif %}>Reopened</option>
+            <option value="Withdrawn" {% if status_filter == "Withdrawn" %}selected{% endif %}>Withdrawn</option>
+        </select>
+
+        <select name="assigned" class="form-input">
+            <option value="">All Assignments</option>
+            <option value="assigned" {% if assigned_filter == "assigned" %}selected{% endif %}>Assigned</option>
+            <option value="unassigned" {% if assigned_filter == "unassigned" %}selected{% endif %}>Unassigned</option>
+        </select>
+
+        <button type="submit" class="btn-primary">Filter</button>
+    </form>
+</div>
+
+<div class="recent-section">
+    <h2>All Recent Grievances</h2>
+
+    <table class="complaints-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Subject</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for c in recent %}
+        <tr>
+            <td>{{ c.complaint_id }}</td>
+            <td>{{ c.user.username }}</td>
+            <td>{{ c.subject }}</td>
+            <td>{{ c.department }}</td>
+            <td class="status-{{ c.status|lower|slugify }}">{{ c.status }}</td>
+            <td>{{ c.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No Grievances found</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="recent-section">
+    <h2>Escalation requests</h2>
+
+    {% if escalated_grievances %}
+        <table class="complaints-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>User</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for complaint in escalated_grievances %}
+            <tr>
+                <td>{{ complaint.complaint_id }}</td>
+                <td>{{ complaint.subject }}</td>
+                <td>{{ complaint.user.username }}</td>
+                <td>{{ complaint.department }}</td>
+                <td class="status-{{ complaint.status|lower|slugify }}">{{ complaint.status }}</td>
+                <td>{{ complaint.created_at|date:"M d, Y H:i" }}</td>
+                <td>
+                    <a href="{% url 'cms:escalate_grievance' %}" class="assign-btn">Escalate</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No escalated grievances.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

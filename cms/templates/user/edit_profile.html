@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-main">
+    <h2>Edit Profile</h2>
+
+    <div class="container-box">
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>First Name</label>
+            <input type="text" name="first_name" value="{{ request.user.first_name }}" class="form-input" required>
+
+            <label>Last Name</label>
+            <input type="text" name="last_name" value="{{ request.user.last_name }}" class="form-input" required>
+
+            <label>Phone</label>
+            <input type="text" name="phone" value="{{ profile.phone }}" class="form-input">
+
+            <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

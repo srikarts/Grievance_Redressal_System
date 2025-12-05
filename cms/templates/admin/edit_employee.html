@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="header">
+    <h1>Edit Employee</h1>
+    <p>Update employee information</p>
+</div>
+
+<div class="container-box">
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="{{ employee.username }}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ employee.email }}" required>
+
+        <label for="department">Department:</label>
+        <select id="department" name="department" required>
+            <option value="" disabled>-- Choose a department --</option>
+            <option value="HR" {% if employee.profile.department == 'HR' %}selected{% endif %}>HR</option>
+            <option value="Payroll" {% if employee.profile.department == 'Payroll' %}selected{% endif %}>Payroll</option>
+            <option value="IT" {% if employee.profile.department == 'IT' %}selected{% endif %}>IT</option>
+            <option value="Facilities" {% if employee.profile.department == 'Facilities' %}selected{% endif %}>Facilities</option>
+            <option value="Security" {% if employee.profile.department == 'Security' %}selected{% endif %}>Security</option>
+            <option value="Admin Dept" {% if employee.profile.department == 'Admin Dept' %}selected{% endif %}>Admin Dept</option>
+        </select>
+
+        <label for="level">Level:</label>
+        <select id="level" name="level" required>
+            <option value="">-- Choose a level --</option>
+            <option value="Level-1" {% if employee.profile.level == 'Level-1' %}selected{% endif %}>Level-1</option>
+            <option value="Level-2" {% if employee.profile.level == 'Level-2' %}selected{% endif %}>Level-2</option>
+        </select>
+
+        <button type="submit" class="btn-primary">Update Employee</button>
+    </form>
+</div>
+
+<style>
+.container-box {
+    width: 400px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-family: Poppins, sans-serif;
+}
+
+.btn-primary {
+    margin-top: 20px;
+    background: #4A90E2;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+</style>
+
+{% endblock %}

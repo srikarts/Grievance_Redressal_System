@@ -1,0 +1,605 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="header">
+    <h1>Escalate Grievance</h1>
+    <p>Assign escalated grievances to Level 2 employees</p>
+</div>
+
+<div id="sop-buttons" style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;">
+    <button type="button" id="hr-sop-btn" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">View HR SOP</button>
+    <button type="button" id="payroll-sop-btn" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">View Payroll SOP</button>
+    <button type="button" id="it-sop-btn" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">View IT SOP</button>
+    <button type="button" id="facilities-sop-btn" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">View Facilities SOP</button>
+    <button type="button" id="security-sop-btn" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">View Security SOP</button>
+    <button type="button" id="admin-sop-btn" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">View Admin Dept SOP</button>
+</div>
+
+<div id="it-sop-table" style="display: none; margin: 20px 0;">
+    <h2 style="text-align: center;">IT Department SOP</h2>
+    <table style="width: 100%; border-collapse: collapse; margin: 0 auto;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Priority</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Laptop not working</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Hardware issue / system failure</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Assign immediately; SLA 48 hrs</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Email / Outlook issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Login / sync / access issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Usually quick fix</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Network / WiFi issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">No internet / slow speed</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Critical if large team affected</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Software installation</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">New tool or update</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Requires approval if licensed</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Printer/Scanner issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Hardware/peripheral issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Facilities may coordinate</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Login credentials issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Password reset / locked</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Sometimes HR approval needed</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Application error</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Internal tool malfunction</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">For departmental apps</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="hr-sop-table" style="display: none; margin: 20px 0;">
+    <h2 style="text-align: center;">HR Department SOP</h2>
+    <table style="width: 100%; border-collapse: collapse; margin: 0 auto;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Priority</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Leave issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Leave rejected/not reflected</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Very common issue</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Attendance correction</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Missed punch</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Needs biometric report</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Salary slip / CTC issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Incorrect salary details</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High sensitivity</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Harassment complaint</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Sensitive workplace issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Critical</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Must be confidential</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Transfer request</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Department/work shift change</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Depends on availability</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Appraisal grievance</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Rating or review issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Subjective cases</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="payroll-sop-table" style="display: none; margin: 20px 0;">
+    <h2 style="text-align: center;">Payroll Department SOP</h2>
+    <table style="width: 100%; border-collapse: collapse; margin: 0 auto;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Priority</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Reimbursement delay</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medical/Travel/Food claim</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Requires bills</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Salary not credited</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Payroll failure</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Critical</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Must respond quickly</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Expense claim issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Incorrect amount</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Check receipts</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Vendor payment issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Vendor unpaid</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Important for operations</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="facilities-sop-table" style="display: none; margin: 20px 0;">
+    <h2 style="text-align: center;">Facilities Department SOP</h2>
+    <table style="width: 100%; border-collapse: collapse; margin: 0 auto;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Priority</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">AC not working</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Cooling/ventilation problem</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Urgent in summer</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Cleanliness issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Washroom/office cleaning</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Daily routine</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Seating / Desk issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Chair broken / new seating</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Needs physical movement</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Electricity issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Light fuse, power trip</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Urgent if affecting work</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Access card issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">New/replacement card</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Needs security approval</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="security-sop-table" style="display: none; margin: 20px 0;">
+    <h2 style="text-align: center;">Security Department SOP</h2>
+    <table style="width: 100%; border-collapse: collapse; margin: 0 auto;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Priority</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">ID card lost</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Lost badge</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Needs tracking</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Theft/Missing item</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Lost belongings</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Requires investigation</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Safety hazard</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Risky environment</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Critical</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Immediate action</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Unauthorized access</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Breach report</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Critical</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Must escalate</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="admin-sop-table" style="display: none; margin: 20px 0;">
+    <h2 style="text-align: center;">Admin Dept SOP</h2>
+    <table style="width: 100%; border-collapse: collapse; margin: 0 auto;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Priority</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Policy clarification</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Company policy doubts</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Informational</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Travel booking issue</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Corporate travel</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Depends on partner agency</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Stationery request</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Notebooks, pens, etc.</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Daily use</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 8px;">Document verification</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">HR/Admin process</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">For new joiners</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div style="display: flex; gap: 20px;">
+    <div class="container-box" style="flex: 1;">
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="complaint">Select Escalated Grievance:</label>
+        <select name="complaint" id="complaint" class="form-input" required>
+            <option value="">-- Choose an escalated grievance --</option>
+            {% for complaint in complaints %}
+            <option value="{{ complaint.complaint_id }}" data-department="{{ complaint.department }}">
+                #{{ complaint.complaint_id }} - {{ complaint.subject }} ({{ complaint.user.username }})
+            </option>
+            {% endfor %}
+        </select>
+
+    <label for="department">Select Department:</label>
+    <select name="department" id="department" class="form-input" required>
+        <option value="">-- Choose a department --</option>
+        <option value="HR">HR</option>
+        <option value="Payroll">Payroll</option>
+        <option value="IT">IT</option>
+        <option value="Facilities">Facilities</option>
+        <option value="Security">Security</option>
+        <option value="Admin Dept">Admin Dept</option>
+    </select>
+
+    <div id="hr-categories" style="display: none;">
+        <label for="category">Select HR Category:</label>
+        <select name="category" id="category" class="form-input">
+            <option value="">-- Choose a category --</option>
+            <option value="Leave request problem">Leave request problem</option>
+            <option value="Shift or attendance issue">Shift or attendance issue</option>
+            <option value="Salary discrepancy">Salary discrepancy</option>
+            <option value="Payroll/Pay slip issue">Payroll/Pay slip issue</option>
+            <option value="Policy violation issue">Policy violation issue</option>
+            <option value="Workplace harassment complaint">Workplace harassment complaint</option>
+            <option value="Transfer request">Transfer request</option>
+            <option value="Appraisal or promotion grievances">Appraisal or promotion grievances</option>
+        </select>
+    </div>
+
+    <div id="payroll-categories" style="display: none;">
+        <label for="payroll-category">Select Payroll Category:</label>
+        <select name="category" id="payroll-category" class="form-input">
+            <option value="">-- Choose a category --</option>
+            <option value="Reimbursement not processed">Reimbursement not processed</option>
+            <option value="Salary revision issue">Salary revision issue</option>
+            <option value="Expense claim delay">Expense claim delay</option>
+            <option value="Vendor payment issue">Vendor payment issue</option>
+            <option value="Travel allowance issue">Travel allowance issue</option>
+            <option value="Budget allocation issue">Budget allocation issue</option>
+        </select>
+    </div>
+
+    <div id="facilities-categories" style="display: none;">
+        <label for="facilities-category">Select Facilities Category:</label>
+        <select name="category" id="facilities-category" class="form-input">
+            <option value="">-- Choose a category --</option>
+            <option value="Access card / entry pass issue">Access card / entry pass issue</option>
+            <option value="AC not working">AC not working</option>
+            <option value="Electricity issue">Electricity issue</option>
+            <option value="Water leakage">Water leakage</option>
+            <option value="Furniture / seating issue">Furniture / seating issue</option>
+            <option value="Cleanliness & housekeeping">Cleanliness & housekeeping</option>
+            <option value="Security complaint">Security complaint</option>
+            <option value="Pantry & refreshments complaint">Pantry & refreshments complaint</option>
+        </select>
+    </div>
+
+    <div id="security-categories" style="display: none;">
+        <label for="security-category">Select Security Category:</label>
+        <select name="category" id="security-category" class="form-input">
+            <option value="">-- Choose a category --</option>
+            <option value="Employee ID lost">Employee ID lost</option>
+            <option value="Security complaint">Security complaint</option>
+            <option value="Theft or missing belongings">Theft or missing belongings</option>
+            <option value="Unauthorized access">Unauthorized access</option>
+            <option value="Safety hazard report">Safety hazard report</option>
+        </select>
+    </div>
+
+    <div id="admin-categories" style="display: none;">
+        <label for="admin-category">Select Admin Dept Category:</label>
+        <select name="category" id="admin-category" class="form-input">
+            <option value="">-- Choose a category --</option>
+            <option value="Policy related query">Policy related query</option>
+            <option value="Internal process violation">Internal process violation</option>
+            <option value="Document verification request">Document verification request</option>
+            <option value="Travel booking issue">Travel booking issue</option>
+            <option value="Stationery & office supplies">Stationery & office supplies</option>
+        </select>
+    </div>
+
+    <div id="it-categories" style="display: none;">
+        <label for="it-category">Select IT Category:</label>
+        <select name="category" id="it-category" class="form-input">
+            <option value="">-- Choose a category --</option>
+            <option value="Laptop not working">Laptop not working</option>
+            <option value="Email/Outlook access issue">Email/Outlook access issue</option>
+            <option value="Software installation request">Software installation request</option>
+            <option value="VPN / Network issue">VPN / Network issue</option>
+            <option value="Printer/Scanner issue">Printer/Scanner issue</option>
+            <option value="System performance issue">System performance issue</option>
+            <option value="Workstation login issue">Workstation login issue</option>
+            <option value="Internet connectivity issue">Internet connectivity issue</option>
+            <option value="Application error">Application error</option>
+            <option value="Password reset request">Password reset request</option>
+        </select>
+    </div>
+
+    <label for="employee">Assign to Level 2 Employee:</label>
+    <select name="employee" id="employee" class="form-input" required>
+        <option value="">-- Choose a Level 2 employee --</option>
+        {% for employee in employees %}
+        <option value="{{ employee.id }}" data-department="{{ employee.profile.department }}">{{ employee.username }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn-primary">Escalate Grievance</button>
+</form>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" style="margin-top: 20px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
+
+    <div class="container-box" style="flex: 1;">
+        <h3>Escalated Grievance Details</h3>
+        <div id="grievance-details">
+            <p><strong>Subject:</strong> <span id="detail-subject">-</span></p>
+            <p><strong>Details:</strong> <span id="detail-details">-</span></p>
+            <p><strong>Status:</strong> <span id="detail-status">-</span></p>
+            <p><strong>User:</strong> <span id="detail-user">-</span></p>
+            <p><strong>Created At:</strong> <span id="detail-created">-</span></p>
+        </div>
+    </div>
+
+{{ complaints_data|json_script:"complaints-data" }}
+
+<script>
+// Parse complaints data globally
+var complaintsData = JSON.parse(document.getElementById('complaints-data').textContent);
+
+document.addEventListener('DOMContentLoaded', function() {
+    var employeeSelect = document.getElementById('employee');
+    // Store original options on page load
+    employeeSelect.originalOptions = Array.from(employeeSelect.options);
+});
+
+document.getElementById('complaint').addEventListener('change', function() {
+    var selectedValue = this.value;
+    var selectedOption = this.options[this.selectedIndex];
+    var department = selectedOption.getAttribute('data-department');
+    if (department) {
+        document.getElementById('department').value = department;
+        // Trigger change event to show categories
+        document.getElementById('department').dispatchEvent(new Event('change'));
+    }
+
+    // Update grievance details
+    if (selectedValue && complaintsData[selectedValue]) {
+        var data = complaintsData[selectedValue];
+        document.getElementById('detail-subject').textContent = data.subject;
+        document.getElementById('detail-details').textContent = data.details;
+        document.getElementById('detail-status').textContent = data.status;
+        document.getElementById('detail-user').textContent = data.user;
+        document.getElementById('detail-created').textContent = data.created_at;
+    } else {
+        document.getElementById('detail-subject').textContent = '-';
+        document.getElementById('detail-details').textContent = '-';
+        document.getElementById('detail-status').textContent = '-';
+        document.getElementById('detail-user').textContent = '-';
+        document.getElementById('detail-created').textContent = '-';
+    }
+});
+
+document.getElementById('department').addEventListener('change', function() {
+    var selectedDepartment = this.value;
+    var employeeSelect = document.getElementById('employee');
+
+    // Reset employee select to show only the placeholder
+    employeeSelect.innerHTML = '<option value="">-- Choose a Level 2 employee --</option>';
+
+    // Filter and show employees from the selected department
+    employeeSelect.originalOptions.forEach(function(option) {
+        if (option.value !== '') {  // Skip the placeholder
+            var employeeDepartment = option.getAttribute('data-department');
+            if (selectedDepartment === '' || employeeDepartment === selectedDepartment) {
+                employeeSelect.appendChild(option.cloneNode(true));
+            }
+        }
+    });
+
+    // Show categories based on department
+    var hrCategories = document.getElementById('hr-categories');
+    var payrollCategories = document.getElementById('payroll-categories');
+    var facilitiesCategories = document.getElementById('facilities-categories');
+    var securityCategories = document.getElementById('security-categories');
+    var adminCategories = document.getElementById('admin-categories');
+    var itCategories = document.getElementById('it-categories');
+    var sopButtons = document.getElementById('sop-buttons');
+    if (this.value === 'HR') {
+        hrCategories.style.display = 'block';
+        payrollCategories.style.display = 'none';
+        facilitiesCategories.style.display = 'none';
+        securityCategories.style.display = 'none';
+        adminCategories.style.display = 'none';
+        itCategories.style.display = 'none';
+        sopButtons.style.display = 'block';
+    } else if (this.value === 'Payroll') {
+        hrCategories.style.display = 'none';
+        payrollCategories.style.display = 'block';
+        facilitiesCategories.style.display = 'none';
+        securityCategories.style.display = 'none';
+        adminCategories.style.display = 'none';
+        itCategories.style.display = 'none';
+        sopButtons.style.display = 'block';
+    } else if (this.value === 'Facilities') {
+        hrCategories.style.display = 'none';
+        payrollCategories.style.display = 'none';
+        facilitiesCategories.style.display = 'block';
+        securityCategories.style.display = 'none';
+        adminCategories.style.display = 'none';
+        itCategories.style.display = 'none';
+        sopButtons.style.display = 'block';
+    } else if (this.value === 'Security') {
+        hrCategories.style.display = 'none';
+        payrollCategories.style.display = 'none';
+        facilitiesCategories.style.display = 'none';
+        securityCategories.style.display = 'block';
+        adminCategories.style.display = 'none';
+        itCategories.style.display = 'none';
+        sopButtons.style.display = 'block';
+    } else if (this.value === 'Admin Dept') {
+        hrCategories.style.display = 'none';
+        payrollCategories.style.display = 'none';
+        facilitiesCategories.style.display = 'none';
+        securityCategories.style.display = 'none';
+        adminCategories.style.display = 'block';
+        itCategories.style.display = 'none';
+        sopButtons.style.display = 'block';
+    } else if (this.value === 'IT') {
+        hrCategories.style.display = 'none';
+        payrollCategories.style.display = 'none';
+        facilitiesCategories.style.display = 'none';
+        securityCategories.style.display = 'none';
+        adminCategories.style.display = 'none';
+        itCategories.style.display = 'block';
+        sopButtons.style.display = 'block';
+    } else {
+        hrCategories.style.display = 'none';
+        payrollCategories.style.display = 'none';
+        facilitiesCategories.style.display = 'none';
+        securityCategories.style.display = 'none';
+        adminCategories.style.display = 'none';
+        itCategories.style.display = 'none';
+        sopButtons.style.display = 'none';
+    }
+
+    // Function to hide all SOP tables
+    function hideAllSOPTables() {
+        var tables = ['it-sop-table', 'hr-sop-table', 'payroll-sop-table', 'facilities-sop-table', 'security-sop-table', 'admin-sop-table'];
+        tables.forEach(function(tableId) {
+            document.getElementById(tableId).style.display = 'none';
+        });
+    }
+
+    // SOP button event listeners
+    document.getElementById('it-sop-btn').addEventListener('click', function() {
+        hideAllSOPTables();
+        var table = document.getElementById('it-sop-table');
+        table.style.display = table.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.getElementById('hr-sop-btn').addEventListener('click', function() {
+        hideAllSOPTables();
+        var table = document.getElementById('hr-sop-table');
+        table.style.display = table.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.getElementById('payroll-sop-btn').addEventListener('click', function() {
+        hideAllSOPTables();
+        var table = document.getElementById('payroll-sop-table');
+        table.style.display = table.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.getElementById('facilities-sop-btn').addEventListener('click', function() {
+        hideAllSOPTables();
+        var table = document.getElementById('facilities-sop-table');
+        table.style.display = table.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.getElementById('security-sop-btn').addEventListener('click', function() {
+        hideAllSOPTables();
+        var table = document.getElementById('security-sop-table');
+        table.style.display = table.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.getElementById('admin-sop-btn').addEventListener('click', function() {
+        hideAllSOPTables();
+        var table = document.getElementById('admin-sop-table');
+        table.style.display = table.style.display === 'none' ? 'block' : 'none';
+    });
+});
+</script>
+
+{% endblock %}

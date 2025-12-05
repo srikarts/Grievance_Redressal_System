@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Status{% endblock %}
+
+{% block content %}
+
+<h2>Update Grievance Status – ID {{ complaint.complaint_id }}</h2>
+
+<div class="container-box">
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Status</label>
+        <select name="status" class="form-input">
+            <option value="In Progress" {% if complaint.status == "In Progress" %}selected{% endif %}>In Progress</option>
+            <option value="Resolved" {% if complaint.status == "Resolved" %}selected{% endif %}>Resolved</option>
+            <option value="Closed" {% if complaint.status == "Closed" %}selected{% endif %}>Closed</option>
+        </select>
+
+        <label>Remarks</label>
+        <textarea name="remarks" class="form-input"></textarea>
+
+        <button type="submit" class="btn-primary">Submit Update</button>
+    </form>
+</div>
+
+{% endblock %}

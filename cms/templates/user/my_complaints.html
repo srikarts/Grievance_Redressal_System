@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-main">
+    <h2>My Grievances</h2>
+
+    <div class="dashboard-actions">
+        <a href="{% url 'cms:user_report_pdf' %}" class="btn-action">Download PDF Report</a>
+        <a href="{% url 'cms:user_report_excel' %}" class="btn-action">Download Excel Report</a>
+    </div>
+
+    <div class="container-box">
+        <form method="GET">
+            <input type="text" name="search" value="{{ search }}" placeholder="Search by subject" class="form-input">
+            
+            <select name="status" class="form-input">
+                <option value="">All Status</option>
+                <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
+                <option value="Assigned" {% if status_filter == "Assigned" %}selected{% endif %}>Assigned</option>
+                <option value="In Progress" {% if status_filter == "In Progress" %}selected{% endif %}>In Progress</option>
+                <option value="Resolved" {% if status_filter == "Resolved" %}selected{% endif %}>Resolved</option>
+            </select>
+
+            <button type="submit" class="btn-primary">Filter</button>
+        </form>
+    </div>
+
+    <table class="complaints-table">
+    <tr>
+        <th>ID</th>
+        <th>Subject</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for c in complaints %}
+    <tr>
+        <td>{{ c.complaint_id }}</td>
+        <td>{{ c.subject }}</td>
+        <td class="status-{{ c.status|lower|slugify }}">{{ c.status }}</td>
+        <td>{{ c.created_at|date:"M d, Y" }}</td>
+        <td><a href="{% url 'cms:complaint_timeline' c.complaint_id %}" class="btn-action">View Timeline</a></td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No complaints found.</td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

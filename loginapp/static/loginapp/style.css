@@ -1,0 +1,306 @@
+/* Basic Reset & Body Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f2f5; /* Light grey background for the overall page */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 900px; /* Adjust container width as needed */
+    max-width: 90%;
+    height: 550px; /* Adjust container height as needed */
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden; /* Ensures rounded corners clip content */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Panel - Abstract Background */
+.left-panel {
+    flex: 1; /* Takes half the width */
+    background-image: url('login_image1.png'); /* Placeholder image, replace with your actual abstract image */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    /* Optional: Add a subtle overlay for better text readability if the background is busy */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+        z-index: 1;
+    }
+}
+
+.overlay-text {
+    position: relative;
+    z-index: 2; /* Ensures text is above the overlay */
+}
+
+.overlay-text h1 {
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.overlay-text p {
+    font-size: 1.1em;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* Right Panel - Login Form */
+.right-panel {
+    flex: 1; /* Takes half the width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f9fc; /* Light background for the login section */
+    padding: 20px;
+}
+
+.login-card {
+    background-color: #f7f9fc;
+    padding: 40px;
+    border-radius: 8px;
+    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); */
+    width: 100%;
+    max-width: 380px; /* Max width for the login form */
+    text-align: center;
+}
+
+.login-card h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Error Message Styles */
+.error-message {
+    color: #dc3545; /* Red color */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    animation: zoomInOut 1s ease-in-out;
+}
+
+@keyframes zoomInOut {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Checkbox and Forgot Password */
+.options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 0.9em;
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 0.9em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #555;
+    text-align: left; /* Ensure text aligns left within its container */
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.forgot-password {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.login-button {
+    width: 100%;
+    padding: 13px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 25px;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.signup-text {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.signup-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .left-panel {
+        height: 250px; /* Shorter height on small screens */
+        border-radius: 0;
+    }
+
+    .overlay-text h1 {
+        font-size: 2em;
+    }
+
+    .overlay-text p {
+        font-size: 1em;
+    }
+
+    .right-panel {
+        padding: 30px 20px;
+    }
+
+    .login-card {
+        max-width: 100%;
+        box-shadow: none;
+        padding: 30px 20px;
+    }
+}
