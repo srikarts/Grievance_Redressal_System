@@ -510,6 +510,7 @@ def user_report_excel(request):
     ws = wb.active
     ws.title = "Complaints"
 
+<<<<<<< HEAD
     # Add title
     ws['A1'] = f"Your Complaint Report - {request.user.username}"
     ws['A1'].font = ws['A1'].font.copy(bold=True, size=14)
@@ -539,6 +540,12 @@ def user_report_excel(request):
     column_widths = [10, 30, 15, 15, 20]
     for i, width in enumerate(column_widths, 1):
         ws.column_dimensions[ws.cell(row=1, column=i).column_letter].width = width
+=======
+    ws.append(["ID", "Subject", "Status", "Created"])
+
+    for c in complaints:
+        ws.append([c.complaint_id, c.subject, c.status, str(c.created_at)])
+>>>>>>> e2f363d1db38133cafa260c091eb4d546218ad97
 
     response = HttpResponse(
         content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

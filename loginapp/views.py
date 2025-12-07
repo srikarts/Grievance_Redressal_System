@@ -6,11 +6,14 @@ from .forms import RegisterForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .models import UserProfile
+<<<<<<< HEAD
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from datetime import timedelta
 import random
+=======
+>>>>>>> e2f363d1db38133cafa260c091eb4d546218ad97
 
 def register_view(request):
     if request.method == 'POST':
@@ -77,6 +80,7 @@ def check_username(request):
         return JsonResponse({'available': available})
     return JsonResponse({'available': False})
 
+<<<<<<< HEAD
 
 def _store_otp_in_session(request, email, otp, minutes=10):
     expires_at = (timezone.now() + timedelta(minutes=minutes)).timestamp()
@@ -183,3 +187,5 @@ def password_reset_done(request):
     # Simple page to indicate flow completion (optional)
     return render(request, 'loginapp/password_reset_done.html', {})
 
+=======
+>>>>>>> e2f363d1db38133cafa260c091eb4d546218ad97
