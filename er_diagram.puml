@@ -1,0 +1,84 @@
+@startuml ER Diagram
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define primary_key(x) <b>x</b>
+!define foreign_key(x) <i>x</i>
+
+Table(User, "User\n(Django Built-in)") {
+  primary_key(id) : Integer
+  username : String
+  email : String
+  first_name : String
+  last_name : String
+  is_staff : Boolean
+  is_active : Boolean
+  date_joined : DateTime
+}
+
+Table(UserProfile, "UserProfile") {
+  primary_key(id) : Integer
+  foreign_key(user_id) : Integer
+  role : String
+  phone : String
+  department : String
+  level : String
+}
+
+Table(Department, "Department") {
+  primary_key(department_id) : Integer
+  name : String
+  description : Text
+}
+
+Table(Category, "Category") {
+  primary_key(category_id) : Integer
+  name : String
+  foreign_key(department_id) : Integer
+  priority : String
+  sla_hours : Float
+}
+
+Table(Grievance, "Grievance") {
+  primary_key(grievance_id) : Integer
+  foreign_key(user_id) : Integer
+  foreign_key(category_id) : Integer
+  department : String
+  foreign_key(assigned_to_id) : Integer
+  subject : String
+  details : Text
+  status : String
+  created_at : DateTime
+}
+
+Table(StatusUpdate, "StatusUpdate") {
+  primary_key(update_id) : Integer
+  foreign_key(grievance_id) : Integer
+  status : String
+  date : DateTime
+  remarks : Text
+}
+
+Table(SLA, "SLA") {
+  primary_key(sla_id) : Integer
+  foreign_key(grievance_id) : Integer
+  deadline : DateTime
+  breached : Boolean
+}
+
+Table(Escalation, "Escalation") {
+  primary_key(escalation_id) : Integer
+  foreign_key(grievance_id) : Integer
+  escalated_to_level : String
+  escalated_at : DateTime
+  reason : Text
+}
+
+User ||--o{ UserProfile : "has one"
+User ||--o{ Grievance : "creates (grievances)"
+User ||--o{ Grievance : "assigned to (assigned_grievances)"
+Department ||--o{ Category : "has many"
+Category ||--o{ Grievance : "categorizes"
+Grievance ||--o{ StatusUpdate : "has many"
+Grievance ||--|| SLA : "has one"
+Grievance ||--|| Escalation : "has one"
+
+@enduml

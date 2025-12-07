@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="header">
+    <h1>Welcome, {{ request.user.username }} </h1>
+</div>
+
+<h3>Assigned Grievances</h3>
+
+<table class="complaints-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Subject</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for c in complaints %}
+    <tr>
+        <td>{{ c.complaint_id }}</td>
+        <td>{{ c.subject }}</td>
+        <td class="status-{{ c.status|lower|slugify }}">{{ c.status }}</td>
+        <td>
+            <a href="{% url 'cms:update_status' c.complaint_id %}" class="assign-btn">Update</a>
+            {% if request.user.profile.level == "Level-1" %}
+            <a href="{% url 'cms:escalate_complaint' c.complaint_id %}" class="assign-btn" style="background-color: #ff9800;">Escalate to Level 2</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No assigned Grievances.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

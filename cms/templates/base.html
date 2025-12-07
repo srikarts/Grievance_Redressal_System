@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GRS</title>
+
+    <link rel="stylesheet" href="{% static 'cms/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+        <h2 class="logo">
+            {% if request.user.is_superuser %}
+                GRS Admin
+            {% elif request.user.profile.role == "employee" %}
+                GRS Employee
+            {% else %}
+                GRS
+            {% endif %}
+        </h2>
+
+        <ul>
+            <!-- ADMIN MENU -->
+            {% if request.user.is_superuser %}
+                <li><a href="{% url 'cms:admin_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'cms:assign_grievance' %}">Assign Grievance</a></li>  <!--Version 2 changes-->
+                <li><a href="{% url 'cms:manage_grievances' %}">Manage Grievances</a></li>
+                <li><a href="{% url 'cms:employee_management' %}">Employee Management</a></li>
+                <li><a href="{% url 'cms:view_users' %}">View Users</a></li>
+                <li><a href="{% url 'cms:view_all_complaints' %}">View All Grievances</a></li>
+            {% endif %}
+
+            <!-- EMPLOYEE MENU -->
+            {% if request.user.profile.role == "employee" %}
+                <li><a href="{% url 'cms:employee_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'cms:employee_assignment_history' %}">Assignment History</a></li>
+            {% endif %}
+
+           <!-- USER MENU -->
+            {% if request.user.is_authenticated and not request.user.is_superuser and request.user.profile.role == "citizen" %}
+                <li><a href="{% url 'cms:user_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'cms:new_complaint' %}">Submit New Grievance</a></li>
+                <li><a href="{% url 'cms:my_complaints' %}">My Grievances</a></li>
+                <li><a href="{% url 'cms:edit_profile' %}">Edit Profile</a></li>
+                <li><a href="{% url 'cms:change_password' %}">Change Password</a></li>
+            {% endif %}
+
+            <!-- LOGOUT -->
+            <li><a href="{% url 'logout' %}" class="logout">Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</div>
+
+</body>
+</html>

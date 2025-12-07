@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-main">
+    <h2>Submit New Grievances</h2>
+
+    <div class="dashboard-actions">
+        <a href="{% url 'cms:my_complaints' %}" class="btn-action">View My Grievances</a>
+    </div>
+
+<div class="container-box">
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="department">Department</label>
+            <select name="department" class="form-input" required>
+                <option value="">-- Choose a department --</option>
+                <option value="HR">HR</option>
+                <option value="Payroll">Payroll</option>
+                <option value="IT">IT</option>
+                <option value="Facilities">Facilities</option>
+                <option value="Security">Security</option>
+                <option value="Admin Dept">Admin Dept</option>
+            </select>
+
+            <label>Subject</label>
+            <input type="text" name="subject" class="form-input" placeholder="Brief description of your complaint" required>
+
+            <label>Details</label>
+            <textarea name="details" class="form-input" placeholder="Provide detailed information about your complaint" rows="5" required></textarea>
+
+            <button type="submit" class="btn-primary">Submit </button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal for messages -->
+{% if messages %}
+<div id="messageModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        {% for message in messages %}
+            <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<style>
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 10% auto;
+    padding: 30px;
+    border: none;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    position: relative;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.close {
+    color: #666;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: #333;
+    transform: scale(1.1);
+}
+
+.alert {
+    padding: 15px 20px;
+    margin: 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.alert-success {
+    color: #155724;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border-left: 5px solid #28a745;
+}
+</style>
+
+<script>
+var modal = document.getElementById("messageModal");
+if (modal) {
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+</script>
+
+{% endblock %}

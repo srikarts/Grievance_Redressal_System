@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="header">
+    <h1>Manage Grievances</h1>
+    <p>Review and approve or reject resolved grievances.</p>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<div class="recent-section">
+    <h2>Resolved Grievances</h2>
+
+    {% if complaints %}
+        <table class="complaints-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>User</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for complaint in complaints %}
+            <tr>
+                <td>{{ complaint.complaint_id }}</td>
+                <td>{{ complaint.subject }}</td>
+                <td>{{ complaint.user.username }}</td>
+                <td>{{ complaint.department }}</td>
+                <td class="status-{{ complaint.status|lower|slugify }}">{{ complaint.status }}</td>
+                <td>{{ complaint.created_at|date:"M d, Y H:i" }}</td>
+                <td>
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="complaint_id" value="{{ complaint.pk }}">
+                        <input type="hidden" name="action" value="approve">
+                        <button type="submit" class="btn-primary" style="padding: 4px 8px; width: auto; margin-right: 5px;">Approve</button>
+                    </form>
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="complaint_id" value="{{ complaint.pk }}">
+                        <input type="hidden" name="action" value="reject">
+                        <button type="submit" class="btn-danger" style="padding: 4px 8px; width: auto; margin-right: 5px;">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% else %}
+        <p>No resolved grievances to manage.</p>
+    {% endif %}
+</div>
+
+<div class="recent-section">
+    <h2>SLA Breaches</h2>
+
+    {% if sla_breaches %}
+        <table class="complaints-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>User</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sla in sla_breaches %}
+            <tr>
+                <td>{{ sla.complaint.complaint_id }}</td>
+                <td>{{ sla.complaint.subject }}</td>
+                <td>{{ sla.complaint.user.username }}</td>
+                <td>{{ sla.complaint.department }}</td>
+                <td class="status-{{ sla.complaint.status|lower|slugify }}">{{ sla.complaint.status }}</td>
+                <td>{{ sla.complaint.created_at|date:"M d, Y H:i" }}</td>
+                <td>
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="complaint_id" value="{{ sla.complaint.pk }}">
+                        <input type="hidden" name="action" value="escalate">
+                        <select name="employee_id" required style="margin-right: 5px;">
+                            <option value="">Select Level 2 Employee</option>
+                            {% for employee in level2_employees %}
+                                <option value="{{ employee.id }}">{{ employee.username }} ({{ employee.profile.department }})</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn-warning" style="padding: 4px 8px; width: auto;">Escalate</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No SLA breaches.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

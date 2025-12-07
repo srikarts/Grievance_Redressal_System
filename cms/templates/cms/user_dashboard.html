@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="header">
+    <h1>Welcome, {{ request.user.username }}</h1>
+    <p>Your complaint activity overview</p>
+</div>
+
+<div class="cards-row">
+    <div class="card card-total">
+        <h3>Total Grievances</h3>
+        <p>{{ total }}</p>
+    </div>
+    <div class="card card-open">
+        <h3>Open Grievances</h3>
+        <p>{{ open_count }}</p>
+    </div>
+    <div class="card card-progress">
+        <h3>In Progress</h3>
+        <p>{{ progress_count }}</p>
+    </div>
+    <div class="card card-closed">
+        <h3>Closed</h3>
+        <p>{{ closed_count }}</p>
+    </div>
+</div>
+
+<div class="recent-section">
+    <h2>Recent Grievances</h2>
+
+    <table class="complaints-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Subject</th>
+            <th>Status</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for c in recent %}
+        <tr>
+            <td>{{ c.complaint_id }}</td>
+            <td>{{ c.subject }}</td>
+            <td class="status-{{ c.status|lower|slugify }}">{{ c.status }}</td>
+            <td>{{ c.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No Grievances found</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

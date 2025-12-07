@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-main">
+    <h2>Status Timeline — Grievance #{{ complaint.complaint_id }}</h2>
+
+    <div class="container-box">
+        <h3>Grievance Details</h3>
+        <p><strong>Subject:</strong> {{ complaint.subject }}</p>
+        <p><strong>Status:</strong> {{ complaint.status }}</p>
+        <p><strong>Created:</strong> {{ complaint.created_at|date:"M d, Y H:i" }}</p>
+        <p><strong>Details:</strong> {{ complaint.details }}</p>
+    </div>
+
+    <div class="container-box">
+        <h3>Status Updates</h3>
+        <ul style="list-style: none; padding: 0;">
+        {% for u in updates %}
+            <li style="border-left: 4px solid #4A90E2; padding-left: 15px; margin-bottom: 20px;">
+                <strong>{{ u.status }}</strong>
+                <br> <small>{{ u.date|date:"M d, Y H:i" }}</small>
+                {% if u.remarks %}
+                    <br> <em>{{ u.remarks }}</em>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No status updates yet.</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="dashboard-actions">
+        <a href="{% url 'cms:my_complaints' %}" class="btn-action">Back to My Grievances</a>
+    </div>
+</div>
+
+{% endblock %}

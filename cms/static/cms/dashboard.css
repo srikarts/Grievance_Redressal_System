@@ -1,0 +1,281 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Poppins, sans-serif;
+    background: #f5f6fa;
+}
+
+/* Dashboard container */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebar .logo {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 12px 20px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li .active {
+    background: #34495e;
+    border-left: 4px solid #4A90E2;
+}
+
+.logout {
+    color: #ff7979 !important;
+}
+
+/* Main content */
+.main-content {
+    margin-left: 240px;
+    padding: 40px;
+    width: calc(100% - 240px);
+}
+
+/* Dashboard Header */
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.header p {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+/* Cards */
+.cards-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    flex: 1;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.complaints-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.complaints-table th,
+.complaints-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.complaints-table th {
+    background: #4A90E2;
+    color: white;
+}
+
+.assign-btn {
+    padding: 6px 12px;
+    background: #4A90E2;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.assign-btn:hover {
+    background: #357abd;
+}
+
+/* ============ FORM CONTAINERS ============ */
+
+.container-box {
+    background: #fff;
+    width: 400px;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ============ INPUTS ============ */
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-family: Poppins, sans-serif;
+}
+
+/* ============ BUTTON ============ */
+
+.btn-primary {
+    background: #4A90E2;
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.dashboard-main {
+    padding: 20px;
+}
+
+.dashboard-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-action {
+    padding: 15px 20px;
+    background: #4A90E2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s;
+    display: inline-block;
+}
+
+.btn-action:hover {
+    background: #3b7ac0;
+}
+
+/* Delete button styling */
+.btn-danger {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Secondary button styling */
+.btn-secondary {
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+/* Status colors for complaint table */
+.status-pending {
+    background-color: #ffff00; /* Solid Yellow */
+    color: #000000;
+    padding: 2px 4px;
+    margin: 2px 4px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.status-assigned {
+    background-color: #2828f1; /* Solid Blue */
+    color: #ffffff;
+    padding: 2px 4px;
+    margin: 2px 4px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.status-in-progress {
+    background-color: #ffa500; /* Solid Orange */
+    color: #000000;
+    padding: 2px 4px;
+    margin: 2px 4px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.status-resolved {
+    background-color: #008000; /* Solid Green */
+    color: #ffffff;
+    padding: 2px 4px;
+    margin: 2px 4px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* Card colors for dashboard stats */
+.card-total {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.card-open {
+    background: linear-gradient(135deg, #ede740 0%, #f1bd38 100%);
+    color: white;
+}
+
+.card-progress {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.card-closed {
+    background: linear-gradient(135deg, #ea5436 0%, #ee5432 100%);
+    color: white;
+}
+
+
