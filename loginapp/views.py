@@ -4,22 +4,45 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from .forms import RegisterForm
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
 from .models import UserProfile
-<<<<<<< HEAD
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from datetime import timedelta
 import random
-=======
->>>>>>> e2f363d1db38133cafa260c091eb4d546218ad97
 
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
+        entered_otp = request.POST.get('otp', '').strip()
+
+        # Check OTP
+        session_data = request.session.get('registration_otp')
+        if not session_data:
+            messages.error(request, "No OTP sent. Please send OTP first.")
+            return redirect('register')
+
+        # Check expiry
+        expires_at = session_data.get('expires_at')
+        if expires_at is None or timezone.now().timestamp() > float(expires_at):
+            _clear_registration_otp_session(request)
+            messages.error(request, "OTP expired. Please send a new one.")
+            return redirect('register')
+
+        # Check OTP match
+        if entered_otp != session_data.get('otp'):
+            messages.error(request, "Invalid OTP.")
+            return redirect('register')
+
+        # Check email matches
+        if request.POST.get('email') != session_data.get('email'):
+            messages.error(request, "Email does not match the OTP sent.")
+            return redirect('register')
+
         if form.is_valid():
             form.save()
+            _clear_registration_otp_session(request)
+            messages.success(request, "Registration successful. You can now log in.")
             return redirect('login')
         else:
             for field, errors in form.errors.items():
@@ -80,7 +103,16 @@ def check_username(request):
         return JsonResponse({'available': available})
     return JsonResponse({'available': False})
 
-<<<<<<< HEAD
+def check_email(request):
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+        email = data.get('email')
+        from django.contrib.auth.models import User
+        available = not User.objects.filter(email=email).exists()
+        return JsonResponse({'available': available})
+    return JsonResponse({'available': False})
+
 
 def _store_otp_in_session(request, email, otp, minutes=10):
     expires_at = (timezone.now() + timedelta(minutes=minutes)).timestamp()
@@ -95,6 +127,46 @@ def _clear_otp_session(request):
     request.session.pop('password_reset_otp', None)
     request.session.modified = True
 
+def _store_registration_otp_in_session(request, email, otp, minutes=10):
+    expires_at = (timezone.now() + timedelta(minutes=minutes)).timestamp()
+    request.session['registration_otp'] = {
+        'email': email,
+        'otp': otp,
+        'expires_at': expires_at
+    }
+    request.session.modified = True
+
+def _clear_registration_otp_session(request):
+    request.session.pop('registration_otp', None)
+    request.session.modified = True
+
+def send_registration_otp(request):
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+        email = data.get('email', '').strip()
+        if not email:
+            return JsonResponse({'success': False, 'message': 'Email is required.'})
+
+        # Generate OTP
+        otp = f"{random.randint(1000, 9999)}"
+
+        # Store OTP in session
+        _store_registration_otp_in_session(request, email, otp, minutes=5)
+
+        # Send OTP email
+        subject = "Your OTP for Registration in Grievance Redressal System"
+        message = f"Your OTP to complete registration is: {otp}\nThis OTP will expire in 5 minutes.\n\n\n\n\nRegards,\nGrievance Redressal Admin"
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [email]
+        try:
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            return JsonResponse({'success': True, 'message': 'OTP sent to your email.'})
+        except Exception:
+            return JsonResponse({'success': False, 'message': 'Failed to send OTP. Please try again.'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request.'})
+
 def password_reset_request(request):
     """
     Show email form and send OTP to the email (if user exists).
@@ -103,20 +175,20 @@ def password_reset_request(request):
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()
         # Generate OTP regardless; send only if user with email exists.
-        otp = f"{random.randint(100000, 999999)}"
+        otp = f"{random.randint(1000, 9999)}"
         try:
             user = User.objects.get(email__iexact=email)
         except User.DoesNotExist:
             user = None
 
         # Store OTP tied to the provided email in session (so same browser can verify)
-        _store_otp_in_session(request, email, otp, minutes=10)
+        _store_otp_in_session(request, email, otp, minutes=5)
 
         # Send OTP email if user exists - otherwise silently succeed
         if user:
-            subject = "Your password reset OTP"
-            message = f"Your OTP to reset your password is: {otp}\nThis OTP will expire in 10 minutes."
-            from_email = settings.EMAIL_HOST_USER
+            subject = "Your password reset OTP for Grievance Redressal System"
+            message = f"Your OTP to reset your password is: {otp}\nThis OTP will expire in 5 minutes.\n\n\n\n\nRegards,\nGrievance Redressal Admin"
+            from_email = settings.DEFAULT_FROM_EMAIL
             recipient_list = [email]
             try:
                 send_mail(subject, message, from_email, recipient_list, fail_silently=False)
@@ -182,10 +254,7 @@ def password_reset_verify(request):
     # GET: render verify form
     return render(request, 'loginapp/password_reset_verify.html', {})
 
-
 def password_reset_done(request):
     # Simple page to indicate flow completion (optional)
     return render(request, 'loginapp/password_reset_done.html', {})
 
-=======
->>>>>>> e2f363d1db38133cafa260c091eb4d546218ad97

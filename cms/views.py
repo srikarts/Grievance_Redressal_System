@@ -6,7 +6,7 @@ from .models import StatusUpdate
 from loginapp.models import UserProfile
 from django.utils import timezone
 from django.contrib.auth.models import User
-from datetime import datetime
+from datetime import datetime, timedelta
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
@@ -127,6 +127,13 @@ def employee_dashboard(request):
 def admin_dashboard(request):
     status_filter = request.GET.get('status', '')
     assigned_filter = request.GET.get('assigned', '')
+
+    # Check for SLA breaches
+    current_time = timezone.now()
+    breached_slas = SLA.objects.filter(deadline__lt=current_time, breached=False)
+    for sla in breached_slas:
+        sla.breached = True
+        sla.save()
 
     # Get all complaints for stats (unfiltered)
     all_complaints = Complaint.objects.all()
@@ -324,6 +331,14 @@ def update_complaint(request, complaint_id):
         complaint.subject = subject
         complaint.details = details
         complaint.save()
+
+        # Create SLA if category is set and SLA doesn't exist
+        if category and not hasattr(complaint, 'sla'):
+            deadline = complaint.created_at + timedelta(hours=category.sla_hours)
+            SLA.objects.create(
+                complaint=complaint,
+                deadline=deadline
+            )
 
         messages.success(request, "Complaint updated successfully!")
         return redirect('cms:my_complaints')

@@ -17,6 +17,12 @@ class RegisterForm(forms.Form):
             raise ValidationError("Username already exists.")
         return username
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("Email already exists.")
+        return email
+
     def clean(self):
         cleaned = super().clean()
         p1 = cleaned.get("password1")

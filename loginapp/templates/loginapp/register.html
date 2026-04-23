@@ -20,9 +20,21 @@
         <div class="right-panel">
             <div class="login-card">
                 <h2>Create Account</h2>
-                {% for message in messages %}
-                    <div class="error-message">{{ message }}</div>
-                {% endfor %}
+
+                <!-- Modal for error messages -->
+                <div id="error-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p id="modal-message"></p>
+                    </div>
+                </div>
+
+                <!-- Hidden messages for modal -->
+                <div id="messages" style="display: none;">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
                 <form method="POST" action="">
                     {% csrf_token %}
                     <div class="form-group">
@@ -31,9 +43,19 @@
                         <p class="error-message" id="username-error">{{ form.username.errors }}</p>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group email-row">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="" required>
+                        <div class="email-input-group">
+                            <input type="email" id="email" name="email" placeholder="" required onblur="checkEmail()">
+                            <button type="button" id="send-otp-btn" class="otp-button">Send OTP</button>
+                        </div>
+                        <p class="error-message" id="email-error"></p>
+                        <p class="error-message" id="otp-error"></p>
+                    </div>
+
+                    <div class="form-group" id="otp-group" style="display: none;">
+                        <label for="otp">Enter OTP</label>
+                        <input type="text" id="otp" name="otp" placeholder="" required>
                     </div>
 
                     <div class="form-group">
@@ -63,6 +85,29 @@
     </div>
 
     <script>
+        // Modal functionality
+        const modal = document.getElementById('error-modal');
+        const closeBtn = document.getElementsByClassName('close')[0];
+
+        // Show modal if there are messages
+        const messagesDiv = document.getElementById('messages');
+        if (messagesDiv && messagesDiv.textContent.trim()) {
+            document.getElementById('modal-message').textContent = messagesDiv.textContent.trim();
+            modal.style.display = 'block';
+        }
+
+        // Close modal when clicking the close button
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
         function checkUsername() {
             const username = document.getElementById('username').value;
             const errorElement = document.getElementById('username-error');
@@ -92,6 +137,70 @@
                 console.error('Error:', error);
             });
         }
+
+        function checkEmail() {
+            const email = document.getElementById('email').value;
+            const errorElement = document.getElementById('email-error');
+
+            if (email.length === 0) {
+                errorElement.textContent = '';
+                return;
+            }
+
+            fetch('/check-email/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.available) {
+                    errorElement.textContent = '';
+                } else {
+                    errorElement.textContent = 'Email already taken.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        document.getElementById('send-otp-btn').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const otpError = document.getElementById('otp-error');
+            otpError.textContent = '';
+
+            if (!email) {
+                otpError.textContent = 'Please enter your email first.';
+                return;
+            }
+
+            fetch('/send-registration-otp/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('otp-group').style.display = 'block';
+                    document.getElementById('send-otp-btn').style.display = 'none';
+                    alert(data.message);
+                } else {
+                    otpError.textContent = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                otpError.textContent = 'An error occurred. Please try again.';
+            });
+        });
     </script>
 </body>
 </html>
